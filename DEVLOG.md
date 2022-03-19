@@ -30,3 +30,6 @@
 - Configuring GraphQL in Strapi // GraphQL features many benefits compared to REST -> TO BE FULLY IMPLEMENTED!
 
 ## 19.03.2022
+- Exchanged All Data fetching with GRAPHQL QUERIES!
+- REMOVED Redux as currently not longer needed
+- !TODO: FETCH ALL PRODUCTS NOT JUST 10 -> maybe make use of pages!
