@@ -32,4 +32,12 @@
 ## 19.03.2022
 - Exchanged All Data fetching with GRAPHQL QUERIES!
 - REMOVED Redux as currently not longer needed
+- Finished Size selector and cross-selling section on product page
+- Created AboutPage data structure and filled with dummy
+- AboutPage integrated but not working as of now!
+
+
+# TODOS
 - !TODO: FETCH ALL PRODUCTS NOT JUST 10 -> maybe make use of pages!
+- Footer not on end of page
+- cross-selling section on productPage not fully responsive (missing scrollbar)

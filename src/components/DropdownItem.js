@@ -1,12 +1,22 @@
 export const DropdownItems = [
 	{
-		title: 'Apparel',
-		path: '/products/apparel',
+		title: 'Men',
+		path: '/products/men',
 		cName: 'dropdown-link'
 	},
 	{
-		title: 'Food',
-		path: '/products/food',
+		title: 'Women',
+		path: '/products/women',
+		cName: 'dropdown-link'
+	},
+	{
+		title: 'SALE',
+		path: '/products/sale',
+		cName: 'dropdown-link'
+	},
+	{
+		title: 'New',
+		path: '/products/new',
 		cName: 'dropdown-link'
 	},
 ]

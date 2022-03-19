@@ -4,11 +4,11 @@
 }
 
 .card-border {
+	min-width: 260px;
 	width: 300px;
 	margin: 1rem;
 	border-radius: 2px;
 	overflow: hidden;
-	box-shadow: 0px 5px 15px #888;
 }
 
 .card-title {

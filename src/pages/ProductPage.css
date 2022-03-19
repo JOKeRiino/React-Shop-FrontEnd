@@ -7,6 +7,23 @@
 	justify-content: center;
 }
 
+.cross-selling {
+	width: 100%;
+	max-width: 1200px;
+	margin: auto;
+	padding: 0px 20px;
+}
+
+.cross-selling h2 {
+	margin-bottom: 5px;
+}
+
+.cross-selling .card-container {
+	display: flex;
+	flex-direction: row;
+	overflow-y: scroll;
+}
+
 .row {
 	display: grid;
 }
@@ -65,7 +82,8 @@
 	margin: 25px 0px -2px;
 }
 
-.col-2 .divider {
+.col-2 .divider,
+.cross-selling .divider {
 	background: orange;
 	width: 45%;
 	height: 4px;
@@ -95,7 +113,7 @@
 
 .product-details .markdown {
 	color: #555;
-	padding: 20px 10px 10px; 
+	padding: 10px; 
 }
 .product-details .markdown p {
 	margin-top: 20px;
@@ -112,6 +130,17 @@
 
 .product-infos i {
 	margin-right: 10px;
+}
+
+.cart-section {
+	display: flex;
+	width: 100%;
+	margin: 10px 0px 0px;
+}
+
+.cart-section input {
+	width: 15%;
+	height: 51px;
 }
 
 .add-to-cart {
@@ -161,5 +190,57 @@
 
 .add-to-cart i {
 	margin-left: 10px;
+}
+
+.radio-selection {
+	display: flex;
+	width: 100%;
+	padding: 2px;
+	justify-content: space-around;
+}
+
+.radio-input {
+	display: none;
+}
+
+.radio-input:checked + .radio-label{
+	background-color: orange;
+	color: #fff;
+}
+
+.radio-label {
+	width: 100%;
+	text-align: center;
+	padding: 8px 14px 4px;
+	font-weight: 700;
+	font-size: 1.8em;
+	cursor: pointer;
+	background-color: #ddd;
+	transition: background 0.1s;
+}
+
+.radio-label:not(:last-of-type) {
+	border-right: 2px solid #222;
+}
+
+.disabled {
+	color: #aaa;
+	background-color: #eee;
+}
+
+.payment {
+	display: flex;
+	font-size: .7rem;
+	align-items: center;
+}
+
+.payment p {
+	text-align: right;
+	width: 100%;
+}
+
+.payment i {
+	font-size: 1.8rem;
+	margin-left: 8px;
 }
 

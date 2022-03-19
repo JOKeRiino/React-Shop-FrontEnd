@@ -1,0 +1,93 @@
+.container {
+	width: 100%;
+	max-width: 1200px;
+	margin: 30px auto;
+	padding: 0px 30px;
+}
+
+.page-title h1 {
+	padding-left: 20px;
+	font-size: 2.6rem;
+}
+
+.divider {
+	width: 45%;
+	height: 5px;
+	background: orange;
+}
+
+.page-title .text-section {
+	margin: 60px 0px;
+	width: 100%;
+	text-align: center;
+}
+
+.values-container {
+	margin-bottom: 50px;
+}
+
+.values-container h3 {
+	font-size: 1.8rem;
+}
+
+.values {
+	display: grid;
+	grid-gap: 20px;
+	margin-top: 30px;
+}
+
+.value {
+	width: 100%;
+	max-width: 300px;
+	height: 300px;
+}
+
+.value h2 {
+	padding: 0px 10px;
+	font-size: 2.5rem;
+	color: #ccc;
+	transition: .5s;
+	z-index: 5;
+}
+
+.value:hover h2 {
+	color: orange;
+}
+
+.value .accent {
+	width: 50px;
+	height: 6px;
+	transform: translate(-10px, -12px);
+	background-color: orange;
+	z-index: 1
+}
+
+.value:hover .accent {
+	background-color: #626262;
+}
+
+.value h4 {
+	font-size: 1.8rem;
+	letter-spacing: .2rem;
+}
+
+.value p {
+	text-align: justify;
+	padding: 5px 18px 5px;
+}
+
+@media (min-width: 768px) {
+	.values {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (min-width: 1024px) {
+	.values {
+		grid-template-columns: 1fr 1fr 1fr;
+	}
+
+	.page-title .text-section {
+		padding: 0px 100px
+	}
+}
