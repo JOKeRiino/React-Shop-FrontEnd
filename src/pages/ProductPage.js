@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
-import axios from "axios";
+import { useQuery } from "@apollo/client";
+import { FETCH_PRODUCT } from "../GraphQL/Queries";
 import './ProductPage.css';
 
 
@@ -10,19 +11,19 @@ const ProductPage = () => {
 	const [selectedImage, setSelectedImage] = useState(0);
 
 	const { id } = useParams();
+	const { data } = useQuery(FETCH_PRODUCT, {
+		variables: { "productId": id }
+	});
+
+	useEffect(() => {
+		if (data) {
+			setProduct(data.product);
+		}
+	}, [data]);
 
 	const handleImageClick = (img) => {
 		setSelectedImage(img)
 	}
-
-	useEffect(async () => {
-		const fP = async () => {
-			const { data } = await axios.get(`http://localhost:1337/api/products/${id}?populate=*`);
-			setProduct(data);
-			console.log(product);
-		}
-		fP()
-	}, [])
 
 	const renderSmallImages = () => {
 		return product.data.attributes.images.data.map((img, index) => {
@@ -47,6 +48,7 @@ const ProductPage = () => {
 						<div className="product-image">
 							<img
 								src={"http://localhost:1337" + product.data.attributes.images.data[selectedImage].attributes.url}
+								alt={"http://localhost:1337" + product.data.attributes.images.data[selectedImage].attributes.alternativeText}
 							/>
 						</div>
 						<div className="small-images">
@@ -94,6 +96,7 @@ const ProductPage = () => {
 			</div>
 		)
 	}
+	//TODO CHANGE THIS INTO A LOADING COMPONENT!!!
 	return (
 		<div className="error">
 			<p>There was a proplem displaying this product!</p>

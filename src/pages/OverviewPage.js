@@ -1,41 +1,43 @@
-import React from "react";
-import { connect } from 'react-redux';
-import { fetchProducts } from '../actions';
+import React, { useState, useEffect } from "react";
 import Card from "../components/Card";
 import './OverviewPage.css';
+import { useQuery } from "@apollo/client";
+import { FETCH_PRODUCTS } from "../GraphQL/Queries";
 
-class OverviewPage extends React.Component {
-	componentDidMount() {
-		this.props.fetchProducts();
-	};
+const OverviewPage = () => {
+	const [products, setProducts] = useState([]);
 
-	renderProducts() {
-		return this.props.products.map((product) => {
+	const { data } = useQuery(FETCH_PRODUCTS);
+
+	useEffect(() => {
+		if (data) {
+			setProducts(data.products.data);
+		}
+	}, [data])
+
+
+	const renderProducts = () => {
+		return products.map((product) => {
 			return (
-				<Card product={product} key={product.id} onClick={this.handleCardClick} />
+				//!On Click handler fehlt, scheint aber nichts auszumachen!!!--> onClick={handleCardClick}
+				<Card product={product} key={product.id} />
 			)
 		})
 	}
 
-	render() {
-		return (
-			<div className="container">
-				<div className="page-heading">
-					<h1>Products</h1>
-					<div className="custom-divider"></div>
-				</div>
-				<div className="grid-container">
-					<div className="products-grid">
-						{this.renderProducts()}
-					</div>
+	return (
+		<div className="container">
+			<div className="page-heading">
+				<h1>Products</h1>
+				<div className="custom-divider"></div>
+			</div>
+			<div className="grid-container">
+				<div className="products-grid">
+					{renderProducts()}
 				</div>
 			</div>
-		)
-	}
+		</div>
+	)
 }
 
-const mapStateToProps = (state) => {
-	return { products: state.products }
-}
-
-export default connect(mapStateToProps, { fetchProducts })(OverviewPage);
+export default OverviewPage;
