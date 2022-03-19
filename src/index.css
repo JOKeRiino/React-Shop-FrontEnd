@@ -1,13 +1,25 @@
+@font-face {
+	font-family: "HelveticaNeueLTPro";
+	src: url("./fonts/HelveticaNeueLTPro-Ex.eot");
+	src:
+	url("./fonts/HelveticaNeueLTPro-Ex.woff") format("woff"),
+	url("./fonts/HelveticaNeueLTPro-Ex.woff2") format("woff2"),
+	url("./fonts/HelveticaNeueLTPro-Ex.ttf") format("truetype"),
+	url("./fonts/HelveticaNeueLTPro-Ex.svg#font") format("svg");
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'HelveticaNeueLTPro', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.font.bold {
+	font-weight: 700;
 }

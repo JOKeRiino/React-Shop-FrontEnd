@@ -1,0 +1,165 @@
+.small-container {
+	width: 100%;
+	max-width: 1200px;
+	margin: auto;
+	padding: 0px 20px;
+	display: flex;
+	justify-content: center;
+}
+
+.row {
+	display: grid;
+}
+
+.single-product {
+	margin-top: 50px;
+}
+
+@media (min-width: 768px) {
+	.row{
+		grid-template-columns: 1fr 1fr
+	}
+
+	.single-product {
+		margin-top: 30px;
+	}
+}
+
+.single-product .col-2 img{
+	padding: 0;
+	object-fit: cover;
+	width: 100%;
+	max-width: 500px;
+	aspect-ratio: 1/1;
+}
+
+.small-images {
+	display: flex;
+	width: 100%;
+}
+
+.small-images>div>.small-image {
+	max-width: 100px;
+	margin: 0px 5px;
+	aspect-ratio: 1/1;
+	object-fit: cover;
+	cursor: pointer;
+}
+
+.selected {
+	border: 3px solid orange;
+}
+
+.single-product .col-2 {
+	padding: 20px;
+}
+
+.col-2 {
+	min-width: 300px;
+	margin: 0px auto;
+}
+
+.col-2 h1 {
+	font-size: 50px;
+	line-height: 60px;
+	margin: 25px 0px -2px;
+}
+
+.col-2 .divider {
+	background: orange;
+	width: 45%;
+	height: 4px;
+	margin-bottom: 20px;
+}
+
+.price {
+	display: flex;
+	align-items: center;
+	margin-bottom: 15px;
+}
+
+.price .discounted {
+	color: red;
+	text-decoration: line-through;
+	margin-left: 20px;
+}
+
+.single-product input {
+	width: 50px;
+	height: 40px;
+	padding-left: 10px;
+	font-size: 20px;
+	margin-right: 10px;
+	border: 1px solid #222;
+}
+
+.product-details .markdown {
+	color: #555;
+	padding: 20px 10px 10px; 
+}
+.product-details .markdown p {
+	margin-top: 20px;
+}
+
+.product-infos {
+	padding: 8px 10px;
+}
+
+.product-infos p {
+	color: #555;
+	padding-top: 10px; 
+}
+
+.product-infos i {
+	margin-right: 10px;
+}
+
+.add-to-cart {
+	width: 100%;
+	border: none;
+	padding: 15px 0;
+	background: linear-gradient(to right, #000 0%, #000 50%, purple 51%, orange 100%);
+	background-size: 500%;
+  	border: none;
+	color: #fff;
+	cursor: pointer;
+	font-size: 1.1rem;
+	letter-spacing: .1rem;
+	text-transform: uppercase;
+}
+
+.add-to-cart:hover {
+	animation-name: gradient;
+	animation-duration: 1s;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+
+.add-to-cart:hover i{
+	animation-name: wiggle;
+	animation-duration: 1.3s;
+	animation-iteration-count: 3;
+	animation-fill-mode: backwards;
+}
+
+@keyframes gradient {
+  0% {
+	background-position: 0% 50%
+  }
+  100% {
+	background-position: 100% 
+  }
+}
+
+@keyframes wiggle {
+	0% {transform: rotate(10deg);}
+	25% {transform: rotate(-10deg);}
+	50% {transform: rotate(20deg);}
+	75% {transform: rotate(-5deg);}
+	100% {transform: rotate(0deg);}
+}
+
+.add-to-cart i {
+	margin-left: 10px;
+}
+
