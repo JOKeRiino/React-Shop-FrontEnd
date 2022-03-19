@@ -93,3 +93,24 @@ query Products {
 	}
   }
 `
+
+export const FETCH_ABOUTUS = gql`
+query Query {
+	aboutPage {
+	  data {
+		attributes {
+		  pagetitle
+		  text_section
+		  secondtitle
+		  corevalues {
+			corevalue {
+			  id
+			  value_name
+			  value_desc
+			}
+		  }
+		}
+	  }
+	}
+  }
+`
