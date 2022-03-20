@@ -3,12 +3,22 @@ import { useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { useQuery } from "@apollo/client";
 import { FETCH_PRODUCT } from "../GraphQL/Queries";
-import './ProductPage.css';
+import { connect } from "react-redux";
+
 import Card from '../components/Card';
+import { addToCart } from "../redux/shopping-actions";
+import './ProductPage.css';
 
 
-const ProductPage = () => {
+const ProductPage = ({ addToCart }) => {
+	/* 
+		product is used for the page in general, but in combination with
+		size and quantity builds the addToCart form.
+		the selected-States are for dynamic rendering purposes on the page	
+	*/
 	const [product, setProduct] = useState(null);
+	const [size, setSize] = useState('');
+	const [quantity, setQuantity] = useState(1);
 	const [selectedImage, setSelectedImage] = useState(0);
 	const [selectedStock, setSelectedStock] = useState("");
 
@@ -24,10 +34,12 @@ const ProductPage = () => {
 		}
 	}, [data, product]);
 
+	//Display one img from the smaller array on the big canvas
 	const handleImageClick = (img) => {
 		setSelectedImage(img)
 	}
 
+	//Display text regarding stock right above the radio-selection for size
 	const onSelectOption = (stock) => {
 		setSelectedStock(stock);
 		if (stock <= 10) {
@@ -38,6 +50,7 @@ const ProductPage = () => {
 		}
 	}
 
+	//Render the Cross-Selling products on the screen.
 	const renderCards = () => {
 		const filtered = product.data.attributes.collections.data[0].attributes.products.data.filter((prod) => prod.id !== id);
 		return filtered.map((prod, index) => {
@@ -45,6 +58,7 @@ const ProductPage = () => {
 		})
 	}
 
+	//Display the list of small images beneath the big image
 	const renderSmallImages = () => {
 		return product.data.attributes.images.data.map((img, index) => {
 			return (
@@ -60,6 +74,8 @@ const ProductPage = () => {
 		})
 	}
 
+	//Display all the radio-options for size selection
+	//TODO Throws key property error as react <> provides no key.
 	const renderedRadio = () => {
 		return product.data.attributes.variant[0].variant_option.map((opt, index) => {
 			return (
@@ -85,6 +101,11 @@ const ProductPage = () => {
 		})
 	}
 
+	const onFormSubmit = () => {
+		//TODO Call the addToCard function from props here! With product and size.
+	}
+
+	//Only display the page after product data is fetched successfully.
 	if (product) {
 		return (
 			<div>
@@ -109,19 +130,21 @@ const ProductPage = () => {
 								<h3 className="discounted">{product.data.attributes.strike_price ? "€" + product.data.attributes.strike_price : ''}</h3>
 							</div>
 							<p className="selected-stock">{selectedStock}</p>
-							<div className="radio-selection">
-								{renderedRadio()}
-							</div>
-							<div className="cart-section">
-								<input type='number' value='1' onChange={console.log("input not finished")} />
-								<button className="add-to-cart">
-									Add to Cart
-									<i className="fa-solid fa-bag-shopping" />
-								</button>
-							</div>
+							<form>
+								<div className="radio-selection">
+									{renderedRadio()}
+								</div>
+								<div className="cart-section">
+									<input type='number' value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+									<button className="add-to-cart" type="submit">
+										Add to Cart
+										<i className="fa-solid fa-bag-shopping" />
+									</button>
+								</div>
+							</form>
 							<div className="payment">
 								<p>Payment powered by</p>
-								<i class="fa-brands fa-stripe"></i>
+								<i className="fa-brands fa-stripe"></i>
 							</div>
 							<div className="product-details">
 								<ReactMarkdown className="markdown">{product.data.attributes.description}</ReactMarkdown>
@@ -166,4 +189,10 @@ const ProductPage = () => {
 	)
 }
 
-export default ProductPage;
+const mapDispatchToProps = dispatch => {
+	return {
+		addToCart: (item, size, qty) => dispatch(addToCart(item, size, qty))
+	}
+}
+
+export default connect(null, mapDispatchToProps)(ProductPage);

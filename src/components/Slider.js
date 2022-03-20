@@ -32,7 +32,7 @@ const Slider = ({ product, onClick }) => {
 		return imageData.map((img, index) => {
 			return (
 				<div
-					key={img.id}
+					key={index}
 					className={slideIndex === index + 1 ? "slide active-anim" : "slide"}
 					onMouseEnter={nextSlide}
 					onMouseLeave={prevSlide}

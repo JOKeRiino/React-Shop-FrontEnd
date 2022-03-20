@@ -31,7 +31,7 @@ const Header = () => {
 				<li className={"nav-item " + (pathname === '/new' ? 'active' : '')}>
 					<Link to='/new' className="nav-links" onClick={closeMobileMenu}>New</Link>
 				</li>
-				<li className={"nav-item " + (pathname.includes('/products') ? 'active' : '')} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+				<li className={"nav-item " + (pathname.includes('/product') ? 'active' : '')} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
 					<Link to='/products' className="nav-links" onClick={closeMobileMenu}>
 						Products <i className="fas fa-caret-down" />
 					</Link>
