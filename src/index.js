@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import {
 	ApolloClient,
 	InMemoryCache,
@@ -10,8 +12,11 @@ import {
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 
+import rootReducer from './redux/rootReducer';
 import App from './App';
 import './index.css';
+
+const store = createStore(rootReducer, composeWithDevTools());
 
 const errorLink = onError(({ graphqlErrors, networkError }) => {
 	if (graphqlErrors) {
@@ -34,7 +39,9 @@ const client = new ApolloClient({
 
 ReactDOM.render(
 	<ApolloProvider client={client}>
-		<App />
+		<Provider store={store}>
+			<App />
+		</Provider>
 	</ApolloProvider>,
 	document.getElementById('root')
 );

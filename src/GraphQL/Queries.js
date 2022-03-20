@@ -95,18 +95,18 @@ query Products {
 `
 
 export const FETCH_ABOUTUS = gql`
-query Query {
+query AboutPage {
 	aboutPage {
 	  data {
 		attributes {
+		  secondtitle
 		  pagetitle
 		  text_section
-		  secondtitle
 		  corevalues {
 			corevalue {
-			  id
 			  value_name
 			  value_desc
+			  id
 			}
 		  }
 		}
