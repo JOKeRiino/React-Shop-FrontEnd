@@ -121,7 +121,7 @@
   
 	.navbar-logo {
 	  position: absolute;
-	  top: 0;
+	  top: -15px;
 	  left: 0;
 	  transform: translate(25%, 50%);
 	}
@@ -159,4 +159,9 @@
 	  color: #1888ff;
 	  transition: 250ms;
 	}
+}
+
+.logo {
+	width: 150px;
+	height: auto;
 }

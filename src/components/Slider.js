@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import './Slider.css';
 import BtnSlider from "./BtnSlider";
 
+/* 
+	This Slider is used to show multiple Images in a Card Component
+	Left and right arrows allow scrolling through all available product images
+	smoothly
+*/
+
 const Slider = ({ product, onClick }) => {
 	const [slideIndex, setSlideIndex] = useState(1)
 	const imageData = product.attributes.images.data;

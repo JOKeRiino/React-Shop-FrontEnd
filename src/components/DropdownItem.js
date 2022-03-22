@@ -1,3 +1,6 @@
+
+//? This file includes all the dropdown items from the header products dropdown
+
 export const DropdownItems = [
 	{
 		title: 'Men',

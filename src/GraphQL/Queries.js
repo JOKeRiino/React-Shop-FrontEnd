@@ -1,5 +1,10 @@
 import { gql } from "@apollo/client";
 
+/*
+	This file contains all GraphQL Queries for this project.
+*/
+
+//? Fetch a single products data from the db
 export const FETCH_PRODUCT = gql`
 query Product($productId: ID) {
 	product(id: $productId) {
@@ -51,6 +56,7 @@ query Product($productId: ID) {
 			variant_option {
 			  text_option
 			  inventory_stock
+			  locked_stock
 			}
 		  }
 		  Washing {
@@ -63,14 +69,15 @@ query Product($productId: ID) {
 			desc
 		  }
 		}
+		id
 	  }
 	}
   }
 `
-
+//? Fetch all available products from the db
 export const FETCH_PRODUCTS = gql`
 query Products {
-	products {
+	products(pagination: { page: 1, pageSize: 18 }) {
 	  data {
 		attributes {
 		  name
@@ -94,6 +101,7 @@ query Products {
   }
 `
 
+//? Fetch the single type data for the about page
 export const FETCH_ABOUTUS = gql`
 query AboutPage {
 	aboutPage {
@@ -108,6 +116,26 @@ query AboutPage {
 			  value_desc
 			  id
 			}
+		  }
+		}
+	  }
+	}
+  }
+`
+
+//? Update the variant object for a specific product.
+export const UPDATE_VARIANT = gql`
+mutation updateProduct($updateProductId: ID!, $data: ProductInput!) {
+	updateProduct(id: $updateProductId, data: $data) {
+	  data {
+		attributes {
+		  variant {
+			variant_option {
+			  locked_stock
+			  text_option
+			  inventory_stock
+			}
+			variant_name
 		  }
 		}
 	  }

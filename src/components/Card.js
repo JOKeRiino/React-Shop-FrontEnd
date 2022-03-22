@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom";
 import './Card.css';
 import Slider from "./Slider";
 
+/*
+	This component displays a product card that can be used in lists of products
+*/
+
 const Card = ({ product }) => {
 	let navigate = useNavigate();
 

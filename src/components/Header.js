@@ -4,6 +4,12 @@ import { Link, useLocation } from 'react-router-dom';
 import Dropdown from './Dropdown';
 import './Header.css';
 
+/*
+	The Header component includes the Navbar of the page aswell as a logo
+	and the cart.
+	TODO: Optimize the responsiveness.
+*/
+
 const Header = () => {
 	const cartAmount = "843,58€";
 	const { pathname } = useLocation();
@@ -19,7 +25,7 @@ const Header = () => {
 	return (
 		<nav className="navbar">
 			<Link to='/' className="navbar-logo">
-				SHOP
+				<img className="logo" src={process.env.PUBLIC_URL + '/images/store-logo.png'} alt="store logo" />
 			</Link>
 			<div className="menu-icon" onClick={handleOpened}>
 				<i className={"fas " + (opened ? "fa-times" : "fa-bars")} />

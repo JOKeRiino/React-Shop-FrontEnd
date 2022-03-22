@@ -5,8 +5,8 @@ import { useQuery } from "@apollo/client";
 import { FETCH_PRODUCTS } from "../GraphQL/Queries";
 
 const OverviewPage = () => {
+	// Array of products fetched by the useQuery hook
 	const [products, setProducts] = useState([]);
-
 	const { data } = useQuery(FETCH_PRODUCTS);
 
 	useEffect(() => {
@@ -15,7 +15,7 @@ const OverviewPage = () => {
 		}
 	}, [data])
 
-
+	// Render out the Products using <Card> Components
 	const renderProducts = () => {
 		return products.map((product) => {
 			return (
@@ -25,6 +25,7 @@ const OverviewPage = () => {
 		})
 	}
 
+	//TODO Maybe change the state init to "null" and add conditional <loader> here!
 	return (
 		<div className="container">
 			<div className="page-heading">
