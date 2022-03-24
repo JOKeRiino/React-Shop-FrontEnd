@@ -3,6 +3,11 @@ import { DropdownItems } from "./DropdownItem";
 import { Link } from "react-router-dom";
 import './Dropdown.css';
 
+/* 
+	This Dropdown Component is used in the header component as a dropdown on
+	a navbar item. The items can be found in the Dropdownitem.js file.
+*/
+
 const Dropdown = () => {
 	const [click, setClick] = useState(false);
 

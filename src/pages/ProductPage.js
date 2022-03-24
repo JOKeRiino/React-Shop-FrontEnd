@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
-import { useQuery } from "@apollo/client";
-import { FETCH_PRODUCT } from "../GraphQL/Queries";
+import { useMutation, useQuery } from "@apollo/client";
+import { FETCH_PRODUCT, UPDATE_VARIANT } from "../GraphQL/Queries";
 import { connect } from "react-redux";
 
 import Card from '../components/Card';
 import { addToCart } from "../redux/shopping-actions";
 import './ProductPage.css';
-
 
 const ProductPage = ({ addToCart }) => {
 	/* 
@@ -26,11 +25,13 @@ const ProductPage = ({ addToCart }) => {
 	const { data } = useQuery(FETCH_PRODUCT, {
 		variables: { "productId": id }
 	});
+	//! Query currently not in use
+	//const [updateProduct] = useMutation(UPDATE_VARIANT);
 
 	useEffect(() => {
 		if (data) {
 			setProduct(data.product);
-			console.log(product)
+			//console.log(product);
 		}
 	}, [data, product]);
 
@@ -75,34 +76,83 @@ const ProductPage = ({ addToCart }) => {
 	}
 
 	//Display all the radio-options for size selection
-	//TODO Throws key property error as react <> provides no key.
 	const renderedRadio = () => {
-		return product.data.attributes.variant[0].variant_option.map((opt, index) => {
+		return product.data.attributes.variant.variant_option.map((opt, index) => {
 			return (
-				<>
+				<React.Fragment key={index}>
 					<input
-						key={index}
 						className="radio-input"
 						type="radio"
 						value={opt.text_option}
 						name="SizeSelector"
 						id={"radio" + index}
-						onClick={() => onSelectOption(opt.inventory_stock)}
-						disabled={opt.inventory_stock === 0}
+						onClick={() => onSelectOption(opt.inventory_stock - opt.locked_stock)}
+						disabled={(opt.inventory_stock - opt.locked_stock) === 0}
 					/>
 					<label
-						className={"radio-label " + (opt.inventory_stock === 0 ? "disabled" : "")}
+						className={"radio-label " + (opt.inventory_stock - opt.locked_stock === 0 ? "disabled" : "")}
 						htmlFor={"radio" + index}
 					>
 						{opt.text_option}
 					</label>
-				</>
+				</React.Fragment>
 			)
 		})
 	}
 
-	const onFormSubmit = () => {
-		//TODO Call the addToCard function from props here! With product and size.
+	const onFormSubmit = (e) => {
+		e.preventDefault();
+
+		//*Cart Error Handling
+		var availableQty;
+		product.data.attributes.variant.variant_option.forEach((option) => {
+			if (option.text_option === size) {
+				availableQty = option.inventory_stock - option.locked_stock;
+			}
+		})
+
+		//? Check if the item has enough inventory stock
+		if (quantity > availableQty) {
+			alert("There are not enough products available")
+		}
+		//? Check if the user has chosen a size
+		else if (size === '') {
+			alert("Please choose a size before adding to cart")
+		}
+		else {
+			const item = { product, size, quantity, id: product.data.id };
+			addToCart(item);
+
+			/*
+				! THIS FUNCTION IS CURRENTLY NOT IN USE!!!
+			*/
+			/*
+				This funktion copies the variant object and changes the value
+				of the locked_stock field, so that it can be written into
+				the database writing a graphql mutation.
+				! THERE HAS TO BE A BETTER WAY TO DO THIS.........
+			*/
+			// const newVariants = {
+			// 	variant: {
+			// 		variant_name: product.data.attributes.variant.variant_name,
+			// 		variant_option: []
+			// 	}
+			// }
+			// product.data.attributes.variant.variant_option.forEach((opt) => {
+			// 	newVariants.variant.variant_option.push({
+			// 		inventory_stock: opt.inventory_stock,
+			// 		locked_stock: opt.locked_stock,
+			// 		text_option: opt.text_option,
+			// 	})
+			// })
+			// newVariants.variant.variant_option.forEach(opt => {
+			// 	if (opt.text_option === size) {
+			// 		opt.locked_stock += quantity;
+			// 	}
+			// })
+			// //Actually mutate the database!!!
+			// updateProduct({ variables: { updateProductId: product.data.id, data: newVariants } })
+		}
 	}
 
 	//Only display the page after product data is fetched successfully.
@@ -130,12 +180,18 @@ const ProductPage = ({ addToCart }) => {
 								<h3 className="discounted">{product.data.attributes.strike_price ? "€" + product.data.attributes.strike_price : ''}</h3>
 							</div>
 							<p className="selected-stock">{selectedStock}</p>
-							<form>
-								<div className="radio-selection">
+							<form onSubmit={onFormSubmit}>
+								<div className="radio-selection" onChange={(e) => setSize(e.target.value)}>
 									{renderedRadio()}
 								</div>
 								<div className="cart-section">
-									<input type='number' value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+									<input
+										type='number'
+										min="1"
+										step="1"
+										value={quantity}
+										onChange={(e) => setQuantity(Number(e.target.value))}
+									/>
 									<button className="add-to-cart" type="submit">
 										Add to Cart
 										<i className="fa-solid fa-bag-shopping" />
@@ -191,7 +247,7 @@ const ProductPage = ({ addToCart }) => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		addToCart: (item, size, qty) => dispatch(addToCart(item, size, qty))
+		addToCart: (item) => dispatch(addToCart(item))
 	}
 }
 

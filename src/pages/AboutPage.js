@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import './AboutPage.css';
 
 const AboutPage = () => {
+	//Fetch the single-type Content from Strapi
 	const [content, setContent] = useState(null);
 	const { data } = useQuery(FETCH_ABOUTUS);
 
@@ -15,6 +16,7 @@ const AboutPage = () => {
 		}
 	}, [data, content])
 
+	//Render the array of core values to the screen
 	const renderValues = () => {
 		return content.data.attributes.corevalues.corevalue.map((value, index) => {
 			return (
@@ -28,6 +30,7 @@ const AboutPage = () => {
 		})
 	}
 
+	//TODO Add a Loader component to the latter return statement
 	if (content) {
 		return (
 			<div className="container">

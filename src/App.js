@@ -8,6 +8,10 @@ import NewPage from "./pages/NewPage";
 import Header from "./components/Header";
 import Cart from "./pages/CartPage";
 
+/*
+	This component only cares about the Routing and adds the Header to every page
+	TODO: Add the Footer Component aswell
+*/
 const App = () => {
 	return (
 		<BrowserRouter>
