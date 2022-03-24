@@ -49,17 +49,24 @@
 ## 22.03.2022
 - The cart gets an item and manages to decide wether the item is already existing and the
 quantity needs to be adjusted or if the item is new and just gets added to the cart.
-
-## 23.03.2022
 - The amount of inventory available has to be controlled on the server (db) side. if someone adds an item to
 their cart, the quantity of this item(s) should not be available to other customers on the website!
 Therefore there has to be another quantity check right before a payment is made and the quantity has to be adjusted
 when a sale takes place (--> This problem took 8 hours to solve!!!)
 
+## 23.03.2022
+- Adding items to cart now works
+- The cart value is shown in the header by using an refactored/reusable funtion
+- Built a functioning cart list
+- Cart page finished. (Apart from car checkout FORM!!!)
+- Header is now fully responsive!
+
 ## 24.03.2022
-TODO: Write a functioning cart and begin implementing the payment provider!
+- All Cart functions are now working via redux.
 
 
 # TODOS
+- Pre Checkout quantity check!!!
 - Footer not on end of page
 - cross-selling section on productPage not fully responsive (missing scrollbar)
+- Size messes up placement on small screen cart page

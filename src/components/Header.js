@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from 'react-router-dom';
-//import logo from '../img/logo.png';
+import { connect } from "react-redux";
 import Dropdown from './Dropdown';
 import './Header.css';
+import { _formatter } from "./_Formatter";
+import { _cartTotal } from "./_CartTotal";
 
 /*
 	The Header component includes the Navbar of the page aswell as a logo
@@ -10,11 +12,16 @@ import './Header.css';
 	TODO: Optimize the responsiveness.
 */
 
-const Header = () => {
-	const cartAmount = "843,58€";
+const Header = ({ cart }) => {
 	const { pathname } = useLocation();
 	const [opened, setOpened] = useState(false);
 	const [dropdown, setDropdown] = useState(false);
+	const [displayAmount, setDisplayAmount] = useState(null);
+
+	// display and update the cart total to display it on the screen.
+	useEffect(() => {
+		setDisplayAmount(_formatter.format(_cartTotal(cart)));
+	}, [{ cart }])
 
 	const handleOpened = () => setOpened(!opened);
 	const closeMobileMenu = () => setOpened(false);
@@ -49,10 +56,16 @@ const Header = () => {
 			</ul>
 			<Link to='/cart' className="navbar-cart" onClick={closeMobileMenu}>
 				<i className="fas fa-shopping-bag"></i>
-				<p>{cartAmount}</p>
+				<p>{displayAmount}</p>
 			</Link>
 		</nav>
 	)
 }
 
-export default Header;
+const mapStateToProps = (state) => {
+	return {
+		cart: state.shop.cart
+	}
+}
+
+export default connect(mapStateToProps)(Header);

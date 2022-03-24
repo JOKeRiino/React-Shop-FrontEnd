@@ -25,12 +25,13 @@ const ProductPage = ({ addToCart }) => {
 	const { data } = useQuery(FETCH_PRODUCT, {
 		variables: { "productId": id }
 	});
-	const [updateProduct] = useMutation(UPDATE_VARIANT);
+	//! Query currently not in use
+	//const [updateProduct] = useMutation(UPDATE_VARIANT);
 
 	useEffect(() => {
 		if (data) {
 			setProduct(data.product);
-			console.log(product);
+			//console.log(product);
 		}
 	}, [data, product]);
 
@@ -120,35 +121,37 @@ const ProductPage = ({ addToCart }) => {
 		}
 		else {
 			const item = { product, size, quantity, id: product.data.id };
-			console.log(item);
 			addToCart(item);
 
+			/*
+				! THIS FUNCTION IS CURRENTLY NOT IN USE!!!
+			*/
 			/*
 				This funktion copies the variant object and changes the value
 				of the locked_stock field, so that it can be written into
 				the database writing a graphql mutation.
 				! THERE HAS TO BE A BETTER WAY TO DO THIS.........
 			*/
-			const newVariants = {
-				variant: {
-					variant_name: product.data.attributes.variant.variant_name,
-					variant_option: []
-				}
-			}
-			product.data.attributes.variant.variant_option.forEach((opt) => {
-				newVariants.variant.variant_option.push({
-					inventory_stock: opt.inventory_stock,
-					locked_stock: opt.locked_stock,
-					text_option: opt.text_option,
-				})
-			})
-			newVariants.variant.variant_option.forEach(opt => {
-				if (opt.text_option === size) {
-					opt.locked_stock += quantity;
-				}
-			})
-			//Actually mutate the database!!!
-			updateProduct({ variables: { updateProductId: product.data.id, data: newVariants } })
+			// const newVariants = {
+			// 	variant: {
+			// 		variant_name: product.data.attributes.variant.variant_name,
+			// 		variant_option: []
+			// 	}
+			// }
+			// product.data.attributes.variant.variant_option.forEach((opt) => {
+			// 	newVariants.variant.variant_option.push({
+			// 		inventory_stock: opt.inventory_stock,
+			// 		locked_stock: opt.locked_stock,
+			// 		text_option: opt.text_option,
+			// 	})
+			// })
+			// newVariants.variant.variant_option.forEach(opt => {
+			// 	if (opt.text_option === size) {
+			// 		opt.locked_stock += quantity;
+			// 	}
+			// })
+			// //Actually mutate the database!!!
+			// updateProduct({ variables: { updateProductId: product.data.id, data: newVariants } })
 		}
 	}
 
