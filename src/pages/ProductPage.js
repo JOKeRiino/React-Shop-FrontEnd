@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
-import { useMutation, useQuery } from "@apollo/client";
-import { FETCH_PRODUCT, UPDATE_VARIANT } from "../GraphQL/Queries";
+import { useQuery } from "@apollo/client";
+import { FETCH_PRODUCT } from "../GraphQL/Queries";
 import { connect } from "react-redux";
 
 import Card from '../components/Card';
@@ -86,11 +86,11 @@ const ProductPage = ({ addToCart }) => {
 						value={opt.text_option}
 						name="SizeSelector"
 						id={"radio" + index}
-						onClick={() => onSelectOption(opt.inventory_stock - opt.locked_stock)}
-						disabled={(opt.inventory_stock - opt.locked_stock) === 0}
+						onClick={() => onSelectOption(opt.inventory_stock)}
+						disabled={(opt.inventory_stock) === 0}
 					/>
 					<label
-						className={"radio-label " + (opt.inventory_stock - opt.locked_stock === 0 ? "disabled" : "")}
+						className={"radio-label " + (opt.inventory_stock === 0 ? "disabled" : "")}
 						htmlFor={"radio" + index}
 					>
 						{opt.text_option}
@@ -107,7 +107,7 @@ const ProductPage = ({ addToCart }) => {
 		var availableQty;
 		product.data.attributes.variant.variant_option.forEach((option) => {
 			if (option.text_option === size) {
-				availableQty = option.inventory_stock - option.locked_stock;
+				availableQty = option.inventory_stock;
 			}
 		})
 

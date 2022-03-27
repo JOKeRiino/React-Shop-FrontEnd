@@ -11,13 +11,23 @@ import {
 	from
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { PersistGate } from 'redux-persist/integration/react';
 
-import rootReducer from './redux/rootReducer';
+import { rootReducer } from './redux/rootReducer';
 import App from './App';
 import './index.css';
 
-//Create the redux-store for the cart
-const store = createStore(rootReducer, composeWithDevTools());
+const persistConfig = {
+	key: 'cart',
+	storage,
+}
+
+//Create the redux-store and persisted Store for the cart with the help of redux-persist
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+const store = createStore(persistedReducer, composeWithDevTools());
+const persistor = persistStore(store);
 
 //Set the error handling for the graphQL connection to Strapi
 const errorLink = onError(({ graphqlErrors, networkError }) => {
@@ -45,7 +55,9 @@ const client = new ApolloClient({
 ReactDOM.render(
 	<ApolloProvider client={client}>
 		<Provider store={store}>
-			<App />
+			<PersistGate persistor={persistor}>
+				<App />
+			</PersistGate>
 		</Provider>
 	</ApolloProvider>,
 	document.getElementById('root')

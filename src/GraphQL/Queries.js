@@ -56,7 +56,6 @@ query Product($productId: ID) {
 			variant_option {
 			  text_option
 			  inventory_stock
-			  locked_stock
 			}
 		  }
 		  Washing {
@@ -68,6 +67,7 @@ query Product($productId: ID) {
 		  Fit {
 			desc
 		  }
+		  price_id
 		}
 		id
 	  }
@@ -124,6 +124,7 @@ query AboutPage {
 `
 
 //? Update the variant object for a specific product.
+//! CURRENTLY NOT IN USE!
 export const UPDATE_VARIANT = gql`
 mutation updateProduct($updateProductId: ID!, $data: ProductInput!) {
 	updateProduct(id: $updateProductId, data: $data) {
@@ -131,11 +132,28 @@ mutation updateProduct($updateProductId: ID!, $data: ProductInput!) {
 		attributes {
 		  variant {
 			variant_option {
-			  locked_stock
 			  text_option
 			  inventory_stock
 			}
 			variant_name
+		  }
+		}
+	  }
+	}
+  }
+`
+
+//? Get only the sizes and inventory for a product id
+export const FETCH_SIZE_INVENTORY = gql`
+query Query($productId: ID) {
+	product(id: $productId) {
+	  data {
+		attributes {
+		  variant {
+			variant_option {
+			  text_option
+			  inventory_stock
+			}
 		  }
 		}
 	  }

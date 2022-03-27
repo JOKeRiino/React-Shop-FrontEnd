@@ -36,3 +36,20 @@ export const remQty = (itemID, itemSize) => {
 		}
 	}
 }
+
+export const setQty = (itemID, itemSize, value) => {
+	return {
+		type: actionTypes.SET_QTY,
+		payload: {
+			id: itemID,
+			size: itemSize,
+			value: value
+		}
+	}
+}
+
+export const resetCart = () => {
+	return {
+		type: "RESET_CART"
+	}
+}

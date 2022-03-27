@@ -21,7 +21,7 @@ const Header = ({ cart }) => {
 	// display and update the cart total to display it on the screen.
 	useEffect(() => {
 		setDisplayAmount(_formatter.format(_cartTotal(cart)));
-	}, [{ cart }])
+	}, [cart])
 
 	const handleOpened = () => setOpened(!opened);
 	const closeMobileMenu = () => setOpened(false);

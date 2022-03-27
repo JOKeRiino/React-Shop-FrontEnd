@@ -62,6 +62,26 @@ const shopReducer = (state = _initialState, action) => {
 					...state
 				}
 			}
+		case actionTypes.SET_QTY:
+			//Check if an item is existing in cart
+			var itemIndex3 = state.cart.findIndex((elem) => elem.id === action.payload.id && elem.size === action.payload.size);
+			if (itemIndex3 !== -1) {
+				if (state.cart[itemIndex3].quantity === 1) {
+					return {
+						...state
+					}
+				} else {
+					//add one to the item at index itemIndex
+					return {
+						...state,
+						cart: state.cart.map((item, index) => index === itemIndex3 ? { ...item, quantity: action.payload.value } : item)
+					}
+				}
+			} else {
+				return {
+					...state
+				}
+			}
 		default:
 			return state;
 	}
