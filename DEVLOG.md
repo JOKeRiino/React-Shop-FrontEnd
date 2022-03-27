@@ -63,10 +63,24 @@ when a sale takes place (--> This problem took 8 hours to solve!!!)
 
 ## 24.03.2022
 - All Cart functions are now working via redux.
+- Pre Checkout quantity check verifies that in the event of a sale the items in cart are actually available.
 
+## 25.03.2022
+- Strapi integrated
+- Basic checkout works
+
+## 26.03.2022
+- Items now appear successfully in checkout.
+- The pre checkout quantity check is now called directly on the cart AND whenever the quantity of any items changes.
+This assures that it is not possible to add a quantity to cart that isn't available in inventory.
+
+## 27.03.2022
+- With the help of the redux-persist library, the state
+is now saved within the browsers local storage and can be accessed even after reloading or closing the page
+- After an order is placed successfully, each cart items inventory is adjusted by the ordered quantity!
+- After an order is placed successfully, the cart aswell as localstorage are successfully cleaned (purged).
 
 # TODOS
-- Pre Checkout quantity check!!!
 - Footer not on end of page
 - cross-selling section on productPage not fully responsive (missing scrollbar)
 - Size messes up placement on small screen cart page

@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { removeFromCart, addQty, remQty } from "../redux/shopping-actions";
-import { Link } from "react-router-dom";
+import { useLazyQuery } from "@apollo/client";
+import { loadStripe } from "@stripe/stripe-js";
+
+import { removeFromCart, addQty, remQty, setQty } from "../redux/shopping-actions";
 import { _formatter } from "../components/_Formatter";
 import { _cartTotal } from "../components/_CartTotal";
-import './CartPage.css'
+import { Link } from "react-router-dom";
+import { FETCH_SIZE_INVENTORY } from "../GraphQL/Queries";
+import './CartPage.css';
 
 /*
 	This component displays the shopping cart.
@@ -13,7 +17,49 @@ import './CartPage.css'
 	be found in the redux directory (./redux)
 */
 
-const Cart = ({ cart, removeFromCart, addQty, remQty }) => {
+let stripePromise;
+
+const getStripe = () => {
+	if (!stripePromise) {
+		stripePromise = loadStripe("pk_test_51KhIUbKwkuYIilDGuyTvo4RJWNqxr09GlgYE3G0ch4wTwL70HEoPjRdBncupJfZDWyR30rBZuDEtGQ2V4x9w9FVx007M0d2uN2");
+	}
+
+	return stripePromise;
+}
+
+const Cart = ({ cart, removeFromCart, addQty, remQty, setQty }) => {
+	const [fetchInventory] = useLazyQuery(FETCH_SIZE_INVENTORY);
+	const cartLineItems = [];
+
+	// This useeffect hook makes sure no item in the cart is set at a higher quantity,
+	// than available in the backend.
+	useEffect(() => {
+		cart.forEach(async item => {
+			const { data } = await fetchInventory({ variables: { "productId": item.id } })
+			//! Change this function to ".find()"
+			data.product.data.attributes.variant.variant_option.forEach((opt) => {
+				if (opt.text_option === item.size) {
+					if (opt.inventory_stock < item.quantity) {
+						alert(`Maximum amount for >${item.product.data.attributes.name}< is: ${opt.inventory_stock}!`);
+						setQty(item.id, item.size, opt.inventory_stock);
+					}
+				}
+			})
+		})
+	}, [cart, fetchInventory, setQty])
+
+	const checkoutOptions = {
+		lineItems: cartLineItems,
+		mode: "payment",
+		successUrl: `${window.location.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+		cancelUrl: `${window.location.origin}/cart`
+	}
+
+	const redirectToCheckout = async () => {
+		const stripe = await getStripe();
+		const { error } = await stripe.redirectToCheckout(checkoutOptions);
+		console.log(error);
+	}
 
 	// Remove an item from cart
 	const handleItemRemove = (item) => {
@@ -34,6 +80,17 @@ const Cart = ({ cart, removeFromCart, addQty, remQty }) => {
 	// Handle the submit event on the checkout button
 	const onCheckoutSubmit = (event) => {
 		event.preventDefault();
+
+		cart.forEach((item) => {
+			// Building the stripe item array for the checkout progress
+			if (cartLineItems.find(({ price }) => price === item.product.data.attributes.price_id) === undefined) {
+				cartLineItems.push({
+					price: item.product.data.attributes.price_id,
+					quantity: item.quantity
+				})
+			}
+		})
+		redirectToCheckout();
 	}
 
 	// Renders all items in cart as a table unless there are no items in cart.
@@ -146,18 +203,17 @@ const Cart = ({ cart, removeFromCart, addQty, remQty }) => {
 }
 
 // Redux functions below
-
 const mapStateToProps = (state) => {
 	return {
 		cart: state.shop.cart
 	};
 }
-
 const mapDispatchToProps = (dispatch) => {
 	return {
 		removeFromCart: (id, size) => dispatch(removeFromCart(id, size)),
 		addQty: (id, size) => dispatch(addQty(id, size)),
-		remQty: (id, size) => dispatch(remQty(id, size))
+		remQty: (id, size) => dispatch(remQty(id, size)),
+		setQty: (id, size, value) => dispatch(setQty(id, size, value))
 	};
 }
 

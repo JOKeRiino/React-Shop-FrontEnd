@@ -21,7 +21,7 @@
 	text-align: left;
 }
 .table th.th-total{
-	text-align: end;
+	text-align: right;
 } 
 .table i{
 	color: rgb(177, 0, 0);
@@ -32,10 +32,10 @@
 	padding: 0 30px
 }
 .table .table-item-total {
-	text-align: end;
+	text-align: right;
 }
 .table .table-item-price {
-	text-align: end;
+	text-align: right;
 	padding-right: 10px;
 }
 .table .table-quantity-section {
@@ -84,7 +84,7 @@
 }
 .total-table tbody tr td:last-of-type {
 	padding-left: 20px;
-	text-align: end;
+	text-align: right;
 }
 .total-table tbody tr:last-of-type {
 	color: #888;
@@ -101,7 +101,7 @@
 .checkout-btn-section {
 	margin-top: 20px;
 	display: flex;
-	justify-content: end;
+	justify-content: flex-end;
 }
 .checkout-btn-wrapper {
 	width: 40%;
