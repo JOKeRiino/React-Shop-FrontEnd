@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "@stripe/stripe-js";
+
 import HomePage from './pages/HomePage';
 import OverviewPage from './pages/OverviewPage';
 import ProductPage from './pages/ProductPage';

@@ -2,12 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { useQuery } from "@apollo/client";
-import { FETCH_PRODUCT } from "../GraphQL/Queries";
 import { connect } from "react-redux";
 
-import Card from '../components/Card';
+import { FETCH_PRODUCT } from "../GraphQL/Queries";
 import { addToCart } from "../redux/shopping-actions";
+import Card from '../components/Card';
+import Loader from '../components/Loader';
 import './ProductPage.css';
+
+/* 
+	This page is the main page for one product, it displays metadata as well as 
+	the add to cart form next to the product images.
+	Additionally the page offers a cross-selling section.
+*/
 
 const ProductPage = ({ addToCart }) => {
 	/* 
@@ -25,35 +32,24 @@ const ProductPage = ({ addToCart }) => {
 	const { data } = useQuery(FETCH_PRODUCT, {
 		variables: { "productId": id }
 	});
-	//! Query currently not in use
-	//const [updateProduct] = useMutation(UPDATE_VARIANT);
 
 	useEffect(() => {
 		if (data) {
 			setProduct(data.product);
-			//console.log(product);
 		}
 	}, [data, product]);
 
 	//Display one img from the smaller array on the big canvas
-	const handleImageClick = (img) => {
-		setSelectedImage(img)
-	}
+	const handleImageClick = img => setSelectedImage(img);
 
 	//Display text regarding stock right above the radio-selection for size
-	const onSelectOption = (stock) => {
-		setSelectedStock(stock);
-		if (stock <= 10) {
-			setSelectedStock(`Order now! Only ${stock} left in stock!`);
-		}
-		else {
-			setSelectedStock("In stock!");
-		}
+	const onSelectOption = stock => {
+		stock <= 10 ? setSelectedStock(`Order now! Only ${stock} left in stock!`) : setSelectedStock("In stock!");
 	}
 
 	//Render the Cross-Selling products on the screen.
 	const renderCards = () => {
-		const filtered = product.data.attributes.collections.data[0].attributes.products.data.filter((prod) => prod.id !== id);
+		const filtered = product.data.attributes.collections.data[0].attributes.products.data.filter(prod => prod.id !== id);
 		return filtered.map((prod, index) => {
 			return <Card product={prod} key={index} />
 		})
@@ -100,12 +96,12 @@ const ProductPage = ({ addToCart }) => {
 		})
 	}
 
-	const onFormSubmit = (e) => {
-		e.preventDefault();
+	const onFormSubmit = event => {
+		event.preventDefault();
 
 		//*Cart Error Handling
 		var availableQty;
-		product.data.attributes.variant.variant_option.forEach((option) => {
+		product.data.attributes.variant.variant_option.forEach(option => {
 			if (option.text_option === size) {
 				availableQty = option.inventory_stock;
 			}
@@ -113,45 +109,15 @@ const ProductPage = ({ addToCart }) => {
 
 		//? Check if the item has enough inventory stock
 		if (quantity > availableQty) {
-			alert("There are not enough products available")
+			alert("There are not enough products available");
 		}
 		//? Check if the user has chosen a size
 		else if (size === '') {
-			alert("Please choose a size before adding to cart")
+			alert("Please choose a size before adding to cart");
 		}
 		else {
 			const item = { product, size, quantity, id: product.data.id };
 			addToCart(item);
-
-			/*
-				! THIS FUNCTION IS CURRENTLY NOT IN USE!!!
-			*/
-			/*
-				This funktion copies the variant object and changes the value
-				of the locked_stock field, so that it can be written into
-				the database writing a graphql mutation.
-				! THERE HAS TO BE A BETTER WAY TO DO THIS.........
-			*/
-			// const newVariants = {
-			// 	variant: {
-			// 		variant_name: product.data.attributes.variant.variant_name,
-			// 		variant_option: []
-			// 	}
-			// }
-			// product.data.attributes.variant.variant_option.forEach((opt) => {
-			// 	newVariants.variant.variant_option.push({
-			// 		inventory_stock: opt.inventory_stock,
-			// 		locked_stock: opt.locked_stock,
-			// 		text_option: opt.text_option,
-			// 	})
-			// })
-			// newVariants.variant.variant_option.forEach(opt => {
-			// 	if (opt.text_option === size) {
-			// 		opt.locked_stock += quantity;
-			// 	}
-			// })
-			// //Actually mutate the database!!!
-			// updateProduct({ variables: { updateProductId: product.data.id, data: newVariants } })
 		}
 	}
 
@@ -238,11 +204,7 @@ const ProductPage = ({ addToCart }) => {
 		)
 	}
 	//TODO CHANGE THIS INTO A LOADING COMPONENT!!!
-	return (
-		<div className="error">
-			<p>There was a proplem displaying this product!</p>
-		</div>
-	)
+	return <Loader />
 }
 
 const mapDispatchToProps = dispatch => {

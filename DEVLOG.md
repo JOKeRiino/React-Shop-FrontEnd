@@ -80,7 +80,17 @@ is now saved within the browsers local storage and can be accessed even after re
 - After an order is placed successfully, each cart items inventory is adjusted by the ordered quantity!
 - After an order is placed successfully, the cart aswell as localstorage are successfully cleaned (purged).
 
+## 28.03.2022
+- Overall Code Cleanup
+- FIXED: Size messes up placement on small screen cart page
+- Implemented Loader Component that shows up on pages before the actual content is fetched from the db
+- Created order type in strapi backend (because in stripe dashboard, product sizes arent submitted)
+- On a successful payment an api post request is sent to the backend, creating an order type.
+In the backend the create method of the controller was overwritten. The checkout session data is fetched from
+Stripe via the session id. The products object is sent from the frontend state.
+- Now the orders can be controlled in the strapi backend with more information than the stripe dashboard.
+
 # TODOS
 - Footer not on end of page
 - cross-selling section on productPage not fully responsive (missing scrollbar)
-- Size messes up placement on small screen cart page
+- Convert all images to smaller file sizes / and possibly .webp format or similar!

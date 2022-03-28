@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
-import shopReducer from './shopping-reducer';
 import { purgeStoredState } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
+import shopReducer from './shopping-reducer';
 
 // This function (called in the index.js file) will, if the action is dispatched
 // Delete the current cart items AND delete the stored cart value (from redux-persist!)

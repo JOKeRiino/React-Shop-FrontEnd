@@ -124,7 +124,6 @@ query AboutPage {
 `
 
 //? Update the variant object for a specific product.
-//! CURRENTLY NOT IN USE!
 export const UPDATE_VARIANT = gql`
 mutation updateProduct($updateProductId: ID!, $data: ProductInput!) {
 	updateProduct(id: $updateProductId, data: $data) {
@@ -156,6 +155,27 @@ query Query($productId: ID) {
 			}
 		  }
 		}
+	  }
+	}
+  }
+`
+
+//? Create an order in the strapi backend
+/*
+  "data": {
+	"payment_status": "open order"
+	"products": {}
+  }
+*/
+export const CREATE_ORDER = gql`
+mutation CreateOrder($data: OrderInput!) {
+	createOrder(data: $data) {
+	  data {
+		attributes {
+		  payment_status
+		  products
+		}
+		id
 	  }
 	}
   }

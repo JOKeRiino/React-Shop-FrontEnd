@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link, useSearchParams } from "react-router-dom";
-import { resetCart } from "../redux/shopping-actions";
 import { useMutation } from "@apollo/client";
+
 import { UPDATE_VARIANT } from "../GraphQL/Queries";
+import { resetCart } from "../redux/shopping-actions";
+import axios from "axios";
 
 /*
 	This page will be navigated to, when a payment has been made.
@@ -25,25 +27,26 @@ const SuccessPage = ({ resetCart, cart }) => {
 
 	useEffect(() => {
 		if (sessionId) {
-			console.log(cart);
 			updateInventory();
 			resetCart();
 		}
 	}, [sessionId, resetCart, cart])
 
-	//TODO
-	// Change the inventory of the bought items
-	// With this action the checkout is completed!
-	const updateInventory = () => {
+	useEffect(() => {
+		if (sessionId) {
+			createStrapiOrder();
+		}
+	}, [sessionId])
 
-		cart.forEach((item) => {
+	const updateInventory = () => {
+		cart.forEach(item => {
 			const newVariant = {
 				variant: {
 					variant_name: item.product.data.attributes.variant.variant_name,
 					variant_option: []
 				}
 			}
-			item.product.data.attributes.variant.variant_option.forEach((opt) => {
+			item.product.data.attributes.variant.variant_option.forEach(opt => {
 				newVariant.variant.variant_option.push({
 					inventory_stock: opt.inventory_stock,
 					text_option: opt.text_option,
@@ -55,6 +58,26 @@ const SuccessPage = ({ resetCart, cart }) => {
 				}
 			})
 			updateProduct({ variables: { updateProductId: item.product.data.id, data: newVariant } })
+		})
+	}
+
+	const createStrapiOrder = () => {
+		const simpleCart = [];
+
+		cart.forEach(item => {
+			simpleCart.push({
+				id: item.id,
+				name: item.product.data.attributes.name,
+				quantity: item.quantity,
+				size: item.size
+			})
+		})
+
+		axios.post('http://localhost:1337/api/orders', {
+			data: {
+				session_id: sessionId,
+				products: simpleCart,
+			}
 		})
 	}
 
@@ -71,13 +94,13 @@ const SuccessPage = ({ resetCart, cart }) => {
 	)
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
 	return {
 		cart: state.shop.cart
 	};
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
 	return {
 		resetCart: () => dispatch(resetCart()),
 	};

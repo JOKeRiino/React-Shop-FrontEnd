@@ -3,10 +3,11 @@ import Card from "../components/Card";
 import './OverviewPage.css';
 import { useQuery } from "@apollo/client";
 import { FETCH_PRODUCTS } from "../GraphQL/Queries";
+import Loader from "../components/Loader";
 
 const OverviewPage = () => {
 	// Array of products fetched by the useQuery hook
-	const [products, setProducts] = useState([]);
+	const [products, setProducts] = useState(null);
 	const { data } = useQuery(FETCH_PRODUCTS);
 
 	useEffect(() => {
@@ -17,28 +18,30 @@ const OverviewPage = () => {
 
 	// Render out the Products using <Card> Components
 	const renderProducts = () => {
-		return products.map((product) => {
+		return products.map(product => {
 			return (
-				//!On Click handler fehlt, scheint aber nichts auszumachen!!!--> onClick={handleCardClick}
 				<Card product={product} key={product.id} />
 			)
 		})
 	}
 
-	//TODO Maybe change the state init to "null" and add conditional <loader> here!
-	return (
-		<div className="container">
-			<div className="page-heading">
-				<h1>Products</h1>
-				<div className="custom-divider"></div>
-			</div>
-			<div className="grid-container">
-				<div className="products-grid">
-					{renderProducts()}
+	if (products) {
+		return (
+			<div className="container">
+				<div className="page-heading">
+					<h1>Products</h1>
+					<div className="custom-divider"></div>
+				</div>
+				<div className="grid-container">
+					<div className="products-grid">
+						{renderProducts()}
+					</div>
 				</div>
 			</div>
-		</div>
-	)
+		)
+	}
+	return <Loader />
+
 }
 
 export default OverviewPage;

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from 'react-router-dom';
 import { connect } from "react-redux";
-import Dropdown from './Dropdown';
-import './Header.css';
+
 import { _formatter } from "./_Formatter";
 import { _cartTotal } from "./_CartTotal";
+import Dropdown from './Dropdown';
+import './Header.css';
 
 /*
 	The Header component includes the Navbar of the page aswell as a logo
 	and the cart.
-	TODO: Optimize the responsiveness.
 */
 
 const Header = ({ cart }) => {
@@ -62,7 +62,7 @@ const Header = ({ cart }) => {
 	)
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
 	return {
 		cart: state.shop.cart
 	}

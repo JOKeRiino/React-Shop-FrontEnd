@@ -1,22 +1,23 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import './Card.css';
+
 import Slider from "./Slider";
+import './Card.css';
 
 /*
 	This component displays a product card that can be used in lists of products
 */
 
 const Card = ({ product }) => {
-	let navigate = useNavigate();
-
-	const handleCardClick = () => {
-		navigate(`../product/${product.id}`)
-	}
+	const navigate = useNavigate();
+	const handleCardClick = () => navigate(`../product/${product.id}`);
 
 	return (
 		<div className="card-border">
-			<Slider product={product} onClick={handleCardClick}></Slider>
+			<Slider
+				product={product}
+				onClick={handleCardClick}
+			></Slider>
 			<div className="card-title" onClick={handleCardClick}>
 				<p className="product-title">{product.attributes.name}</p>
 				<div className="card-price">

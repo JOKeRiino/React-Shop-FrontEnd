@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useQuery } from "@apollo/client";
 import { FETCH_ABOUTUS } from "../GraphQL/Queries";
 import ReactMarkdown from "react-markdown";
+import { useQuery } from "@apollo/client";
+
 import './AboutPage.css';
+import Loader from "../components/Loader";
 
 const AboutPage = () => {
 	//Fetch the single-type Content from Strapi
@@ -12,9 +14,8 @@ const AboutPage = () => {
 	useEffect(() => {
 		if (data) {
 			setContent(data.aboutPage);
-			console.log(content);
 		}
-	}, [data, content])
+	}, [data, content]);
 
 	//Render the array of core values to the screen
 	const renderValues = () => {
@@ -49,7 +50,7 @@ const AboutPage = () => {
 			</div>
 		)
 	}
-	return <div>Loading...</div>
+	return <Loader />
 }
 
 export default AboutPage;
