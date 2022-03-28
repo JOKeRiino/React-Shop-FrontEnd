@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import './Slider.css';
+
 import BtnSlider from "./BtnSlider";
+import './Slider.css';
 
 /* 
 	This Slider is used to show multiple Images in a Card Component
@@ -9,29 +10,29 @@ import BtnSlider from "./BtnSlider";
 */
 
 const Slider = ({ product, onClick }) => {
-	const [slideIndex, setSlideIndex] = useState(1)
+	const [slideIndex, setSlideIndex] = useState(1);
 	const imageData = product.attributes.images.data;
 
 	const nextSlide = () => {
 		if (slideIndex !== imageData.length) {
-			setSlideIndex(slideIndex + 1)
+			setSlideIndex(slideIndex + 1);
 		}
 		else if (slideIndex === imageData.length) {
-			setSlideIndex(1)
+			setSlideIndex(1);
 		}
 	}
 
 	const prevSlide = () => {
 		if (slideIndex !== 1) {
-			setSlideIndex(slideIndex - 1)
+			setSlideIndex(slideIndex - 1);
 		}
 		else if (slideIndex === 1) {
-			setSlideIndex(imageData.length)
+			setSlideIndex(imageData.length);
 		}
 	}
 
 	const moveDot = index => {
-		setSlideIndex(index)
+		setSlideIndex(index);
 	}
 
 	const renderImages = () => {
@@ -58,7 +59,6 @@ const Slider = ({ product, onClick }) => {
 			{renderImages()}
 			<BtnSlider moveSlide={nextSlide} direction={"next"} />
 			<BtnSlider moveSlide={prevSlide} direction={"prev"} />
-
 			<div className="container-dots">
 				{Array.from({ length: imageData.length }).map((item, index) => (
 					<div

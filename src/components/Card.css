@@ -1,4 +1,3 @@
-
 .red {
 	color: red;
 }
@@ -24,7 +23,7 @@
 	margin-top: 8px;
 }
 
-.card-price p{
+.card-price p {
 	display: flex;
 	margin: 0px 5px;
 	font-weight: 700;

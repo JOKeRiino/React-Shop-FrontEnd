@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { useLazyQuery } from "@apollo/client";
 import { loadStripe } from "@stripe/stripe-js";
+import { Link } from "react-router-dom";
 
 import { removeFromCart, addQty, remQty, setQty } from "../redux/shopping-actions";
 import { _formatter } from "../components/_Formatter";
 import { _cartTotal } from "../components/_CartTotal";
-import { Link } from "react-router-dom";
 import { FETCH_SIZE_INVENTORY } from "../GraphQL/Queries";
 import './CartPage.css';
 
@@ -20,10 +20,10 @@ import './CartPage.css';
 let stripePromise;
 
 const getStripe = () => {
+	//TODO Maybe hide the stripe key in some file
 	if (!stripePromise) {
 		stripePromise = loadStripe("pk_test_51KhIUbKwkuYIilDGuyTvo4RJWNqxr09GlgYE3G0ch4wTwL70HEoPjRdBncupJfZDWyR30rBZuDEtGQ2V4x9w9FVx007M0d2uN2");
 	}
-
 	return stripePromise;
 }
 
@@ -62,31 +62,25 @@ const Cart = ({ cart, removeFromCart, addQty, remQty, setQty }) => {
 	}
 
 	// Remove an item from cart
-	const handleItemRemove = (item) => {
-		removeFromCart(item.id, item.size);
-	}
+	const handleItemRemove = item => removeFromCart(item.id, item.size);
 
 	// For an item, raise quantity by 1
-	const handleQuantityAdd = (item) => {
-		addQty(item.id, item.size);
-	}
+	const handleQuantityAdd = item => addQty(item.id, item.size);
 
 	// For an item, decrease quantity by 1
 	// Error-handling done in the reducer
-	const handleQuantityRemove = (item) => {
-		remQty(item.id, item.size);
-	}
+	const handleQuantityRemove = item => remQty(item.id, item.size);
 
 	// Handle the submit event on the checkout button
-	const onCheckoutSubmit = (event) => {
+	const onCheckoutSubmit = event => {
 		event.preventDefault();
 
-		cart.forEach((item) => {
+		cart.forEach(item => {
 			// Building the stripe item array for the checkout progress
 			if (cartLineItems.find(({ price }) => price === item.product.data.attributes.price_id) === undefined) {
 				cartLineItems.push({
 					price: item.product.data.attributes.price_id,
-					quantity: item.quantity
+					quantity: item.quantity,
 				})
 			}
 		})
@@ -130,7 +124,7 @@ const Cart = ({ cart, removeFromCart, addQty, remQty, setQty }) => {
 		})
 	}
 
-	// Render generall structure + checkout form
+	// Render general structure + checkout form
 	return (
 		<div className="cart-container">
 			<div>
@@ -203,12 +197,12 @@ const Cart = ({ cart, removeFromCart, addQty, remQty, setQty }) => {
 }
 
 // Redux functions below
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
 	return {
 		cart: state.shop.cart
 	};
 }
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
 	return {
 		removeFromCart: (id, size) => dispatch(removeFromCart(id, size)),
 		addQty: (id, size) => dispatch(addQty(id, size)),
