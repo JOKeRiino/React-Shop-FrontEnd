@@ -107,8 +107,19 @@
 	text-align: right;
 }
 
-.total-table tbody tr:last-of-type {
+.total-table tbody tr {
 	color: #888;
+}
+
+.total-table tbody tr:first-of-type {
+	color: #000;
+}
+
+.total-table tbody tr:last-of-type {
+	color: #000;
+	line-height: 2rem;
+	font-weight: 700;
+
 }
 
 .checkbox-wrapper {

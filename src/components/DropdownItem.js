@@ -2,22 +2,45 @@
 export const DropdownItems = [
 	{
 		title: 'Men',
-		path: '/products/men',
+		path: '/collection/men',
 		cName: 'dropdown-link'
 	},
 	{
 		title: 'Women',
-		path: '/products/women',
+		path: '/collection/women',
 		cName: 'dropdown-link'
 	},
 	{
 		title: 'SALE',
-		path: '/products/sale',
+		path: '/collection/sale',
 		cName: 'dropdown-link'
 	},
 	{
 		title: 'New',
-		path: '/products/new',
+		path: '/collection/new',
 		cName: 'dropdown-link'
 	},
+]
+
+export const CollectionItems = [
+	{
+		param: 'new',
+		id: '4',
+		title: "new items"
+	},
+	{
+		param: 'sale',
+		id: '5',
+		title: 'sale'
+	},
+	{
+		param: 'men',
+		id: '2',
+		title: 'for men'
+	},
+	{
+		param: 'women',
+		id: '3',
+		title: 'for women'
+	}
 ]

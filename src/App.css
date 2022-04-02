@@ -1,0 +1,10 @@
+.page-container {
+	display: flex;
+	flex-direction: column;
+	/* min-height: calc(100vh - 80px); */
+	min-height: 100vh;
+}
+
+.page-content-wrap {
+	flex: 1;
+}

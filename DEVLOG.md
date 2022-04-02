@@ -90,7 +90,28 @@ In the backend the create method of the controller was overwritten. The checkout
 Stripe via the session id. The products object is sent from the frontend state.
 - Now the orders can be controlled in the strapi backend with more information than the stripe dashboard.
 
+## 29.03.2022
+- Finished successpage content and styling
+- Collection Component works for all created components
+
+## 30.03.2022
+- Building the frontpage (boring and no value for the assignment)
+
+## 31.03.2022
+- Adding shipping to the cart page and collecting a billing/shipping address
+at checkout!
+- Getting the neccessary name and address data in the backend for emails
+- Sending an unformatted email via sendgrid works
+- installing the email templating engine for strapi
+- Sending a FORMATTED EMAIL works fine!!!!!
+
+## 01.04.2022
+- Footer finally on end of page!!!
+- Fixed buttons on homepage
+- Cart shipping fee fixed on empty cart
+
 # TODOS
-- Footer not on end of page
-- cross-selling section on productPage not fully responsive (missing scrollbar)
 - Convert all images to smaller file sizes / and possibly .webp format or similar!
+- Write all content into strapi! (In this case maybe dont,
+because of the missing SEO!)
+- Put the checkout in the backend completly!!!! For security reasons!

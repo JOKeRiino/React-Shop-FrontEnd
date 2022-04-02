@@ -51,6 +51,9 @@ const Cart = ({ cart, removeFromCart, addQty, remQty, setQty }) => {
 	const checkoutOptions = {
 		lineItems: cartLineItems,
 		mode: "payment",
+		shippingAddressCollection: {
+			allowedCountries: ['US', 'CA', 'DE'],
+		},
 		successUrl: `${window.location.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
 		cancelUrl: `${window.location.origin}/cart`
 	}
@@ -84,6 +87,17 @@ const Cart = ({ cart, removeFromCart, addQty, remQty, setQty }) => {
 				})
 			}
 		})
+		if (_cartTotal(cart) >= 70) {
+			cartLineItems.push({
+				price: "price_1KjJfbKwkuYIilDGB7cxPIQF",
+				quantity: 1
+			})
+		} else if (_cartTotal(cart) > 0) {
+			cartLineItems.push({
+				price: "price_1KjJg4KwkuYIilDGIcABfZI8",
+				quantity: 1
+			})
+		}
 		redirectToCheckout();
 	}
 
@@ -160,13 +174,20 @@ const Cart = ({ cart, removeFromCart, addQty, remQty, setQty }) => {
 					<table className="total-table">
 						<tbody>
 							<tr>
-								<td>Cart Total:</td>
+								<td>Cart Subtotal:</td>
 								<td>{_formatter.format(_cartTotal(cart))}</td>
 							</tr>
-
 							<tr>
 								<td>Including VAT (19%):</td>
 								<td>{_formatter.format(_cartTotal(cart) * .19)}</td>
+							</tr>
+							<tr>
+								<td>Shipping Fee:</td>
+								<td>{_cartTotal(cart) >= 70 ? "FREE" : _cartTotal(cart) === 0 ? _formatter.format(0) : _formatter.format(5.99)}</td>
+							</tr>
+							<tr>
+								<td>Cart Total:</td>
+								<td>{_cartTotal(cart) >= 70 || _cartTotal(cart) === 0 ? _formatter.format(_cartTotal(cart)) : _formatter.format(_cartTotal(cart) + 5.99)}</td>
 							</tr>
 						</tbody>
 					</table>

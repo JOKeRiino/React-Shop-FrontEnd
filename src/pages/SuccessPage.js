@@ -6,6 +6,7 @@ import { useMutation } from "@apollo/client";
 import { UPDATE_VARIANT } from "../GraphQL/Queries";
 import { resetCart } from "../redux/shopping-actions";
 import axios from "axios";
+import './SuccessPage.css';
 
 /*
 	This page will be navigated to, when a payment has been made.
@@ -83,14 +84,25 @@ const SuccessPage = ({ resetCart, cart }) => {
 
 	if (sessionId) {
 		return (
-			<div>
+			<div className="success-container">
 				<h1>Your order was placed successfully!</h1>
-				<Link to="/products">Keep Shopping!</Link>
+				<div className="divider"></div>
+				<div className="keep-shopping-wrapper">
+					<span>You will receive an e-mail with your order details shortly.</span>
+					<Link className="keep-shopping-btn" to="/products">Keep Shopping!</Link>
+				</div>
 			</div>
 		)
 	}
 	return (
-		<div>no session id</div>
+		<div className="success-container">
+			<h1>Something went wrong!</h1>
+			<div className="divider"></div>
+			<div className="keep-shopping-wrapper">
+				<span>It looks like you landed here accidentally! But now that you are here, check out our products:</span>
+				<Link className="keep-shopping-btn" to="/products">Show me products</Link>
+			</div>
+		</div>
 	)
 }
 

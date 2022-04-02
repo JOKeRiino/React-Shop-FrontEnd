@@ -42,7 +42,7 @@ const Header = ({ cart }) => {
 					<Link to='/' className="nav-links" onClick={closeMobileMenu}>Home</Link>
 				</li>
 				<li className={"nav-item " + (pathname === '/new' ? 'active' : '')}>
-					<Link to='/new' className="nav-links" onClick={closeMobileMenu}>New</Link>
+					<Link to='/collection/new' className="nav-links" onClick={closeMobileMenu}>New</Link>
 				</li>
 				<li className={"nav-item " + (pathname.includes('/product') ? 'active' : '')} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
 					<Link to='/products' className="nav-links" onClick={closeMobileMenu}>
