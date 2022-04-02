@@ -5,6 +5,7 @@
 	right: 26%;
 	list-style: none;
 	text-align: start;
+	z-index: 999;
 }
 
 .dropdown-menu li {

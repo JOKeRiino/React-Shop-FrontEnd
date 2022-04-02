@@ -6,12 +6,14 @@
 .products-grid {
 	display: grid;
 	grid-gap: 16px;
+	grid-template-rows: repeat(auto-fill);
 }
 
 @media (min-width: 768px) {
 	.products-grid {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(300px, 1fr));
+		grid-template-rows: auto;
 	}
 }
 
@@ -24,13 +26,13 @@
 @media (min-width: 1325px) {
 	.products-grid {
 		grid-template-columns: repeat(3, minmax(auto, 300px));
+		grid-template-rows: auto;
 		grid-gap: 35px;
 	}
 }
 
 .container {
 	width: 100%;
-	height: 100vh;
 	margin: 0px auto;
 }
 

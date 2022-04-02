@@ -180,3 +180,85 @@ mutation CreateOrder($data: OrderInput!) {
 	}
   }
 `
+
+//? Fetch all products for a certain collection
+/* 
+	{
+	"collectionId": "4"
+	}
+*/
+export const FETCH_COLLECTION = gql`
+query Collection($collectionId: ID) {
+	collection(id: $collectionId) {
+	  data {
+		attributes {
+		  collection_name
+		  products {
+			data {
+			  attributes {
+				name
+				images {
+				  data {
+					attributes {
+					  alternativeText
+					  url
+					}
+				  }
+				}
+				price
+				strike_price
+				bestseller_image {
+				  data {
+					attributes {
+					  alternativeText
+					  url
+					}
+				  }
+				}
+			  }
+			  id
+			}
+		  }
+		}
+	  }
+	}
+  }
+`
+
+//? Fetch the homepage
+export const FETCH_HOME = gql`
+query Query {
+	homePage {
+	  data {
+		attributes {
+		  slider {
+			slide {
+			  img {
+				data {
+				  attributes {
+					alternativeText
+					url
+				  }
+				}
+			  }
+			  cta
+			  desc
+			  path
+			  id
+			}
+		  }
+		  mobile {
+			data {
+			  attributes {
+				alternativeText
+				url
+			  }
+			}
+		  }
+		  mobiletext
+		  mobileheading
+		}
+	  }
+	}
+  }
+`
