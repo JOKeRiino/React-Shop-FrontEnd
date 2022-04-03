@@ -41,10 +41,10 @@ const Header = ({ cart }) => {
 				<li className={"nav-item " + (pathname === '/' ? 'active' : '')}>
 					<Link to='/' className="nav-links" onClick={closeMobileMenu}>Home</Link>
 				</li>
-				<li className={"nav-item " + (pathname === '/new' ? 'active' : '')}>
+				<li className={"nav-item " + (pathname === '/collection/new' ? 'active' : '')}>
 					<Link to='/collection/new' className="nav-links" onClick={closeMobileMenu}>New</Link>
 				</li>
-				<li className={"nav-item " + (pathname.includes('/product') ? 'active' : '')} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+				<li className={"nav-item " + (pathname.includes('/product') || pathname.includes('/collection/') ? 'active' : '')} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
 					<Link to='/products' className="nav-links" onClick={closeMobileMenu}>
 						Products <i className="fas fa-caret-down" />
 					</Link>

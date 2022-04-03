@@ -46,7 +46,7 @@ const Slider = ({ product, onClick }) => {
 					onClick={onClick}
 				>
 					<img
-						src={'http://localhost:1337' + img.attributes.url}
+						src={`${process.env.REACT_APP_BASE_URL + img.attributes.url}`}
 						alt={img.attributes.alternativeText}
 					/>
 				</div>

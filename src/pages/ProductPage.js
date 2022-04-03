@@ -61,7 +61,7 @@ const ProductPage = ({ addToCart }) => {
 			return (
 				<div key={index}>
 					<img
-						src={"http://localhost:1337" + img.attributes.url}
+						src={`${process.env.REACT_APP_BASE_URL + img.attributes.url}`}
 						alt={img.attributes.alternativeText}
 						className={"small-image " + (selectedImage === index ? 'selected' : '')}
 						onClick={() => handleImageClick(index)}
@@ -130,8 +130,8 @@ const ProductPage = ({ addToCart }) => {
 						<div className="col-2">
 							<div className="product-image">
 								<img
-									src={"http://localhost:1337" + product.data.attributes.images.data[selectedImage].attributes.url}
-									alt={"http://localhost:1337" + product.data.attributes.images.data[selectedImage].attributes.alternativeText}
+									src={`${process.env.REACT_APP_BASE_URL + product.data.attributes.images.data[selectedImage].attributes.url}`}
+									alt={`${process.env.REACT_APP_BASE_URL + product.data.attributes.images.data[selectedImage].attributes.alternativeText}`}
 								/>
 							</div>
 							<div className="small-images">
@@ -203,7 +203,6 @@ const ProductPage = ({ addToCart }) => {
 			</div>
 		)
 	}
-	//TODO CHANGE THIS INTO A LOADING COMPONENT!!!
 	return <Loader />
 }
 

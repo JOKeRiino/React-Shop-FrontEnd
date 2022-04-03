@@ -74,7 +74,7 @@ const SuccessPage = ({ resetCart, cart }) => {
 			})
 		})
 
-		axios.post('http://localhost:1337/api/orders', {
+		axios.post(`${process.env.REACT_APP_BASE_URL}/api/orders`, {
 			data: {
 				session_id: sessionId,
 				products: simpleCart,
