@@ -15,14 +15,14 @@ import './CartPage.css';
 	If the cart is empty it displays a link to /products.
 	All neccessary cart actions are handled trough redux. All redux content can
 	be found in the redux directory (./redux)
-	The actual checkout is performed in the backend! => /orders/checkout
 */
 
 let stripePromise;
 
 const getStripe = () => {
+	//TODO Maybe hide the stripe key in some file
 	if (!stripePromise) {
-		stripePromise = loadStripe(`${process.env.REACT_APP_STRIPE_PUBLIC_KEY}`);
+		stripePromise = loadStripe("pk_test_51KhIUbKwkuYIilDGuyTvo4RJWNqxr09GlgYE3G0ch4wTwL70HEoPjRdBncupJfZDWyR30rBZuDEtGQ2V4x9w9FVx007M0d2uN2");
 	}
 	return stripePromise;
 }
@@ -48,27 +48,31 @@ const Cart = ({ cart, removeFromCart, addQty, remQty, setQty }) => {
 		})
 	}, [cart, fetchInventory, setQty])
 
+	const checkoutOptions = {
+		lineItems: cartLineItems,
+		mode: "payment",
+		shippingAddressCollection: {
+			allowedCountries: ['US', 'CA', 'DE'],
+		},
+		successUrl: `${window.location.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+		cancelUrl: `${window.location.origin}/cart`
+	}
+
 	const redirectToCheckout = async () => {
 		const stripe = await getStripe();
-
-		const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/orders/checkout`, {
-			method: 'POST',
-			body: JSON.stringify({
-				cartTotal: _cartTotal(cart),
-				cartLineItems: cartLineItems
-			}),
-			headers: {
-				'Content-type': 'application/json'
-			}
-		});
-
-		const session = await res.json();
-
-		const { error } = await stripe.redirectToCheckout({
-			sessionId: session.id
-		})
+		const { error } = await stripe.redirectToCheckout(checkoutOptions);
 		console.log(error);
 	}
+
+	// Remove an item from cart
+	const handleItemRemove = item => removeFromCart(item.id, item.size);
+
+	// For an item, raise quantity by 1
+	const handleQuantityAdd = item => addQty(item.id, item.size);
+
+	// For an item, decrease quantity by 1
+	// Error-handling done in the reducer
+	const handleQuantityRemove = item => remQty(item.id, item.size);
 
 	// Handle the submit event on the checkout button
 	const onCheckoutSubmit = event => {
@@ -83,18 +87,19 @@ const Cart = ({ cart, removeFromCart, addQty, remQty, setQty }) => {
 				})
 			}
 		})
+		if (_cartTotal(cart) >= 70) {
+			cartLineItems.push({
+				price: "price_1KjJfbKwkuYIilDGB7cxPIQF",
+				quantity: 1
+			})
+		} else if (_cartTotal(cart) > 0) {
+			cartLineItems.push({
+				price: "price_1KjJg4KwkuYIilDGIcABfZI8",
+				quantity: 1
+			})
+		}
 		redirectToCheckout();
 	}
-
-	// Remove an item from cart
-	const handleItemRemove = item => removeFromCart(item.id, item.size);
-
-	// For an item, raise quantity by 1
-	const handleQuantityAdd = item => addQty(item.id, item.size);
-
-	// For an item, decrease quantity by 1
-	// Error-handling done in the reducer
-	const handleQuantityRemove = item => remQty(item.id, item.size);
 
 	// Renders all items in cart as a table unless there are no items in cart.
 	// Then it displays the link to /products.
@@ -106,7 +111,7 @@ const Cart = ({ cart, removeFromCart, addQty, remQty, setQty }) => {
 						<Link to={"/product/" + cartItem.id}>
 							<img
 								className="cart-image"
-								src={`${process.env.REACT_APP_BASE_URL + cartItem.product.data.attributes.images.data[0].attributes.url}`}
+								src={"http://localhost:1337" + cartItem.product.data.attributes.images.data[0].attributes.url}
 								width="100"
 								alt={cartItem.product.data.attributes.images.data[0].attributes.alternativeText}
 							/>

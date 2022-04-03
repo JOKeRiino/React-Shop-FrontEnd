@@ -107,11 +107,20 @@ at checkout!
 
 ## 01.04.2022
 - Footer finally on end of page!!!
+
+## 02.04.2022
 - Fixed buttons on homepage
 - Cart shipping fee fixed on empty cart
+- Converted all images to webp format. Avg. saving on image size: 90-95%!!!!
+
+## 03.04.2022
+- The Creation of the checkout has now been moved entirely to the strapi backend
+Because the old method was deprecated and not as secure + less features...!
+- Added .env variables (Base url and stripe key)
+- Code clean up and simple bug fixes
 
 # TODOS
-- Convert all images to smaller file sizes / and possibly .webp format or similar!
-- Write all content into strapi! (In this case maybe dont,
+- Add spinning circle when checkout is clicked?!
+- idk?!
+(- Write all content into strapi! In this case maybe dont,
 because of the missing SEO!)
-- Put the checkout in the backend completly!!!! For security reasons!

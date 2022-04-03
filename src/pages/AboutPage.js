@@ -31,7 +31,6 @@ const AboutPage = () => {
 		})
 	}
 
-	//TODO Add a Loader component to the latter return statement
 	if (content) {
 		return (
 			<div className="container">

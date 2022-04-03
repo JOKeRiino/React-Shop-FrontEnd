@@ -50,7 +50,7 @@ const HomePage = () => {
 			return (
 				<div className={slideIndex === index + 1 ? "big-slide active-img" : "big-slide"} key={img.id}>
 					<img
-						src={"http://localhost:1337" + img.img.data.attributes.url}
+						src={`${process.env.REACT_APP_BASE_URL + img.img.data.attributes.url}`}
 						alt={img.img.data.attributes.alternativeText}
 					/>
 					<div className="info">
@@ -94,7 +94,7 @@ const HomePage = () => {
 					<div className="divider"></div>
 					<div className="mobile-grid">
 						<img className="mobile-grid-img"
-							src={"http://localhost:1337" + content.data.attributes.mobile.data.attributes.url}
+							src={`${process.env.REACT_APP_BASE_URL + content.data.attributes.mobile.data.attributes.url}`}
 							alt={content.data.attributes.mobile.data.attributes.alternativeText}
 						/>
 						<div className="mobile-grid-text">

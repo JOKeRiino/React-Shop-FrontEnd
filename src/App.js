@@ -14,8 +14,7 @@ import Footer from "./components/Footer";
 import './App.css';
 
 /*
-	This component only cares about the Routing and adds the Header to every page
-	TODO: Add the Footer Component aswell
+	This component only cares about the Routing and adds the Header and Footer to every page
 */
 const App = () => {
 	return (
