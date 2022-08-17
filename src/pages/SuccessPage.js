@@ -14,7 +14,7 @@ import './SuccessPage.css';
 	but ONLY if the checkout was successful.
 */
 
-const SuccessPage = ({ resetCart, cart }) => {
+const SuccessPage = ({ resetCart, cart, orderId }) => {
 	const [params] = useSearchParams();
 	const [sessionId, setSessionId] = useState(null);
 	const [updateProduct] = useMutation(UPDATE_VARIANT);
@@ -35,7 +35,7 @@ const SuccessPage = ({ resetCart, cart }) => {
 
 	useEffect(() => {
 		if (sessionId) {
-			createStrapiOrder();
+			updateStrapiOrder();
 		}
 	}, [sessionId])
 
@@ -62,22 +62,11 @@ const SuccessPage = ({ resetCart, cart }) => {
 		})
 	}
 
-	const createStrapiOrder = () => {
-		const simpleCart = [];
+	const updateStrapiOrder = () => {
 
-		cart.forEach(item => {
-			simpleCart.push({
-				id: item.id,
-				name: item.product.data.attributes.name,
-				quantity: item.quantity,
-				size: item.size
-			})
-		})
-
-		axios.post(`${process.env.REACT_APP_BASE_URL}/api/orders`, {
+		axios.put(`${process.env.REACT_APP_BASE_URL}/api/orders/${orderId}`, {
 			data: {
 				session_id: sessionId,
-				products: simpleCart,
 			}
 		})
 	}
@@ -108,7 +97,8 @@ const SuccessPage = ({ resetCart, cart }) => {
 
 const mapStateToProps = state => {
 	return {
-		cart: state.shop.cart
+		cart: state.shop.cart,
+		orderId: state.shop.orderId
 	};
 }
 

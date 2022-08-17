@@ -1,6 +1,6 @@
 import * as actionTypes from './shopping-types';
 
-const _initialState = { cart: [] }
+const _initialState = { cart: [], orderId: null }
 
 const shopReducer = (state = _initialState, action) => {
 	switch (action.type) {
@@ -81,6 +81,11 @@ const shopReducer = (state = _initialState, action) => {
 				return {
 					...state
 				}
+			}
+		case "SET_ORDER_ID":
+			return {
+				...state,
+				orderId: action.payload.orderId
 			}
 		default:
 			return state;

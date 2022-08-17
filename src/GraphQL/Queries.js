@@ -56,6 +56,7 @@ query Product($productId: ID) {
 			variant_option {
 			  text_option
 			  inventory_stock
+			  price_id
 			}
 		  }
 		  Washing {
@@ -133,6 +134,7 @@ mutation updateProduct($updateProductId: ID!, $data: ProductInput!) {
 			variant_option {
 			  text_option
 			  inventory_stock
+			  price_id
 			}
 			variant_name
 		  }
@@ -207,14 +209,6 @@ query Collection($collectionId: ID) {
 				}
 				price
 				strike_price
-				bestseller_image {
-				  data {
-					attributes {
-					  alternativeText
-					  url
-					}
-				  }
-				}
 			  }
 			  id
 			}

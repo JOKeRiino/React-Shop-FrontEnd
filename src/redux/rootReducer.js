@@ -10,7 +10,7 @@ export const rootReducer = (state, action) => {
 	if (action.type === "RESET_CART") {
 		state = undefined;
 		purgeStoredState({
-			key: 'cart',
+			key: 'root',
 			storage,
 		});
 	}

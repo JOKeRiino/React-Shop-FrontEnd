@@ -4,7 +4,7 @@ import { useLazyQuery } from "@apollo/client";
 import { loadStripe } from "@stripe/stripe-js";
 import { Link } from "react-router-dom";
 
-import { removeFromCart, addQty, remQty, setQty, setOrderId } from "../redux/shopping-actions";
+import { removeFromCart, addQty, remQty, setQty } from "../redux/shopping-actions";
 import { _formatter } from "../components/_Formatter";
 import { _cartTotal } from "../components/_CartTotal";
 import { FETCH_SIZE_INVENTORY } from "../GraphQL/Queries";
@@ -27,17 +27,13 @@ const getStripe = () => {
 	return stripePromise;
 }
 
-const Cart = ({ cart, removeFromCart, addQty, remQty, setQty, setOrderId }) => {
+const Cart = ({ cart, removeFromCart, addQty, remQty, setQty }) => {
 	const [fetchInventory] = useLazyQuery(FETCH_SIZE_INVENTORY);
 	const cartLineItems = [];
 
 	// This useeffect hook makes sure no item in the cart is set at a higher quantity,
 	// than available in the backend.
 	useEffect(() => {
-		checkInventoryAvailability()
-	}, [cart])
-
-	const checkInventoryAvailability = () => {
 		cart.forEach(async item => {
 			const { data } = await fetchInventory({ variables: { "productId": item.id } })
 			//! Change this function to ".find()"
@@ -50,26 +46,26 @@ const Cart = ({ cart, removeFromCart, addQty, remQty, setQty, setOrderId }) => {
 				}
 			})
 		})
-	}
+	}, [cart, fetchInventory, setQty])
 
 	const redirectToCheckout = async () => {
 		const stripe = await getStripe();
 
-		const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/orders`, {
+		const res = await fetch(`${process.env.REACT_APP_BASE_URL}/api/orders/checkout`, {
 			method: 'POST',
 			body: JSON.stringify({
 				cartTotal: _cartTotal(cart),
-				cart: cartLineItems
+				cartLineItems: cartLineItems
 			}),
 			headers: {
 				'Content-type': 'application/json'
 			}
 		});
+
 		const session = await res.json();
 
-		setOrderId(session.orderId);
 		const { error } = await stripe.redirectToCheckout({
-			sessionId: session.stripeId
+			sessionId: session.id
 		})
 		console.log(error);
 	}
@@ -78,24 +74,14 @@ const Cart = ({ cart, removeFromCart, addQty, remQty, setQty, setOrderId }) => {
 	const onCheckoutSubmit = event => {
 		event.preventDefault();
 
-		checkInventoryAvailability();
-
 		cart.forEach(item => {
-			let sizePriceId;
-
-			item.product.data.attributes.variant.variant_option.forEach(opt => {
-				if (opt.text_option === item.size) {
-					sizePriceId = opt.price_id;
-				}
-			})
-
-			cartLineItems.push({
-				id: item.id,
-				title: item.product.data.attributes.name,
-				size: item.size,
-				quantity: item.quantity,
-				priceId: sizePriceId
-			})
+			// Building the stripe item array for the checkout progress
+			if (cartLineItems.find(({ price }) => price === item.product.data.attributes.price_id) === undefined) {
+				cartLineItems.push({
+					price: item.product.data.attributes.price_id,
+					quantity: item.quantity,
+				})
+			}
 		})
 		redirectToCheckout();
 	}
@@ -237,8 +223,7 @@ const mapDispatchToProps = dispatch => {
 		removeFromCart: (id, size) => dispatch(removeFromCart(id, size)),
 		addQty: (id, size) => dispatch(addQty(id, size)),
 		remQty: (id, size) => dispatch(remQty(id, size)),
-		setQty: (id, size, value) => dispatch(setQty(id, size, value)),
-		setOrderId: (orderId) => dispatch(setOrderId(orderId))
+		setQty: (id, size, value) => dispatch(setQty(id, size, value))
 	};
 }
 

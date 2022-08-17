@@ -43,7 +43,7 @@
 
 ## 21.03.2022
 - Added descriptions and comments to all existing components
-- Form now fires product, to add to cart
+- Form now fires product to add to cart
 - Products page now fetches all items (Removed/Specified special fetching limit in gqlQuery)
 
 ## 22.03.2022
@@ -58,7 +58,7 @@ when a sale takes place (--> This problem took 8 hours to solve!!!)
 - Adding items to cart now works
 - The cart value is shown in the header by using an refactored/reusable funtion
 - Built a functioning cart list
-- Cart page finished. (Apart from car checkout FORM!!!)
+- Cart page finished. (Apart from cart checkout FORM!!!)
 - Header is now fully responsive!
 
 ## 24.03.2022
@@ -66,8 +66,8 @@ when a sale takes place (--> This problem took 8 hours to solve!!!)
 - Pre Checkout quantity check verifies that in the event of a sale the items in cart are actually available.
 
 ## 25.03.2022
-- Strapi integrated
-- Basic checkout works
+- Stripe integrated
+- Basic client-side checkout works
 
 ## 26.03.2022
 - Items now appear successfully in checkout.
@@ -119,8 +119,14 @@ Because the old method was deprecated and not as secure + less features...!
 - Added .env variables (Base url and stripe key)
 - Code clean up and simple bug fixes
 
+# FURTHER OPTIMIZATION
+## 08.04.2022
+- Completely changed the checkout process.
+- The order instance now gets created with a payment_status of open AT CHECKOUT.
+- After a successful payment the order instance is updated.
+- If the payment_status is changed to "paid" ONLY then the invoice is sent out per email.
+
 # TODOS
 - Add spinning circle when checkout is clicked?!
-- idk?!
 (- Write all content into strapi! In this case maybe dont,
 because of the missing SEO!)

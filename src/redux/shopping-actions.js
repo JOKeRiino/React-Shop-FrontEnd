@@ -53,3 +53,12 @@ export const resetCart = () => {
 		type: "RESET_CART"
 	}
 }
+
+export const setOrderId = (orderId) => {
+	return {
+		type: "SET_ORDER_ID",
+		payload: {
+			orderId: orderId
+		}
+	}
+}

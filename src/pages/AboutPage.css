@@ -73,7 +73,7 @@
 
 .value p {
 	text-align: justify;
-	padding: 5px 18px 5px;
+	padding: 5px 18px;
 }
 
 @media (min-width: 768px) {

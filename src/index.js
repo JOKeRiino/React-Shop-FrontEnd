@@ -20,7 +20,7 @@ import App from './App';
 import './index.css';
 
 const persistConfig = {
-	key: 'cart',
+	key: 'root',
 	storage,
 }
 
